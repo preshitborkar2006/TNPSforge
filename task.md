@@ -1,0 +1,41 @@
+# Task List - College Coding Club Portal
+
+- [x] Initialize Vite React JS project
+- [x] Install dependencies (`framer-motion`, `lucide-react`, `react-router-dom`)
+- [x] Configure `index.html`, `vite.config.js`, and `main.jsx`
+- [x] Create mock data files in `src/data/`
+  - [x] `events.js` (20 items)
+  - [x] `projects.js` (15 items)
+  - [x] `members.js` (30 items)
+  - [x] `blogs.js` (20 items)
+  - [x] `achievements.js` (15 items)
+  - [x] `gallery.js` (20 items)
+  - [x] `resources.js` (20 items)
+- [x] Create Shared Animation Wrappers
+  - [x] `FadeAnimation.jsx`
+  - [x] `SlideAnimation.jsx`
+- [x] Create global styling in `src/index.css`
+- [x] Create Layout and Common Components
+  - [x] `Navbar`
+  - [x] `Footer`
+  - [x] `Loader`
+  - [x] `ScrollToTop`
+- [x] Create Home Page Components
+  - [x] `Hero`
+  - [x] `Stats`
+- [x] Create Pages
+  - [x] `Home.jsx`
+  - [x] `About.jsx`
+  - [x] `Events.jsx`
+  - [x] `Projects.jsx`
+  - [x] `Team.jsx`
+  - [x] `Gallery.jsx`
+  - [x] `Achievements.jsx`
+  - [x] `Resources.jsx`
+  - [x] `Blog.jsx`
+  - [x] `Contact.jsx`
+  - [x] `Login.jsx`
+  - [x] `Register.jsx`
+  - [x] `Admin.jsx`
+- [x] Configure `App.jsx` and main router
+- [x] Verify build and preview application

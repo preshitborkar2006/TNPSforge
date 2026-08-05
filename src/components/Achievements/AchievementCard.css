@@ -1,0 +1,78 @@
+.achievement-card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 16px;
+  height: 100%;
+}
+
+.achievement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ach-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ach-icon.yellow { color: #fbbf24; }
+.ach-icon.purple { color: #c084fc; }
+.ach-icon.cyan { color: #22d3ee; }
+.ach-icon.blue { color: #60a5fa; }
+
+.ach-metric {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-cyan-glow);
+  background: rgba(34, 211, 238, 0.06);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(34, 211, 238, 0.15);
+}
+
+.achievement-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.ach-category {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ach-title {
+  font-size: 1.2rem;
+  font-family: var(--font-heading);
+}
+
+.ach-winner {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.ach-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.achievement-footer {
+  border-top: 1px solid var(--border-color);
+  padding-top: 12px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}

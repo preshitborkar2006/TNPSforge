@@ -1,0 +1,222 @@
+export const blogs = [
+  {
+    id: 1,
+    title: "Understanding React 19 Compiler (React Forget)",
+    category: "Web Development",
+    author: "Tanmay Mishra",
+    date: "2026-07-15",
+    readTime: "5 min read",
+    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=600&q=80",
+    excerpt: "React 19 introduces automatic memoization. Learn how the new React Compiler compiles code to eliminate the need for useMemo and useCallback.",
+    content: "React 19 brings one of the most anticipated updates: the React Compiler. Historically, optimizing React applications required manual optimization using useMemo and useCallback hooks. This was error-prone and complex for beginners. With React 19, the compiler automatically analyzes JSX structure and state changes to memoize calculations and component trees at the build level. This tutorial will explore compiler optimization rules, what happens to existing useMemo references, and how to verify if your code is being compiled successfully."
+  },
+  {
+    id: 2,
+    title: "Getting Started with Hugging Face Transformers in Python",
+    category: "AI",
+    author: "Rohan Joshi",
+    date: "2026-07-10",
+    readTime: "8 min read",
+    image: "https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=600&q=80",
+    excerpt: "An absolute beginner's guide to using pre-trained NLP models for sentiment analysis, text generation, and language translation in 10 lines of code.",
+    content: "Hugging Face has democratized access to state-of-the-art machine learning models. By using the transformers pipeline API, developers can load billions-parameters models with single line operations. This article covers pipeline loading, tokenization mechanisms, fine-tuning pre-trained models on custom datasets, and deploying local interfaces using Streamlit."
+  },
+  {
+    id: 3,
+    title: "Securing Node.js APIs: Best Practices for 2026",
+    category: "Cyber Security",
+    author: "Karan Malhotra",
+    date: "2026-07-02",
+    readTime: "6 min read",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Protect your backend from SQL injection, XSS, rate-limiting failures, and JWT hijacking. Essential middleware checklists for production servers.",
+    content: "Developing functional APIs is simple, but making them resilient to malicious attacks is a different challenge. In this guide, we walk through security practices including setting secure HTTP headers with Helmet, implementing rate-limiting, encrypting payload transit tokens, and sanitizing SQL/NoSQL queries against injection exploits."
+  },
+  {
+    id: 4,
+    title: "Jetpack Compose State Management Demystified",
+    category: "Android",
+    author: "Aditya Rao",
+    date: "2026-06-28",
+    readTime: "7 min read",
+    image: "https://images.unsplash.com/photo-1607252631357-37d4573b47f9?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Understand the differences between remember, rememberSaveable, StateFlow, and SharedFlow in declarative Android user interfaces.",
+    content: "State drives rendering in declarative UI libraries like Jetpack Compose. Developers transitioning from XML frequently struggle with state hoisting and recomposition cycles. This article covers how state works inside composables, saving state across configuration changes, and subscribing to architectural ViewModel flows."
+  },
+  {
+    id: 5,
+    title: "Mastering Binary Search in Competitive Programming",
+    category: "Competitive Programming",
+    author: "Siddharth Sen",
+    date: "2026-06-20",
+    readTime: "9 min read",
+    image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Binary search isn't just for finding elements in sorted lists. Learn 'Binary Search on Answer' - the secret weapon for hard algorithmic problems.",
+    content: "Binary search is one of the most powerful paradigms in competitive programming. While finding an element in a sorted list takes O(log N), binary search can also optimize monotonic optimization problems. This is known as 'binary search on the answer space'. Learn how to write bounds check functions and avoid infinite loop index traps."
+  },
+  {
+    id: 6,
+    title: "Building an Offline-First App with Room and Flow",
+    category: "Android",
+    author: "Ishita Kapoor",
+    date: "2026-06-15",
+    readTime: "6 min read",
+    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=600&q=80",
+    excerpt: "User experience suffers when network drops. Learn to implement a local database cache that syncs with cloud endpoints seamlessly.",
+    content: "Offline-first architecture provides instant UI updates while managing background API updates. Room DB functions as the single source of truth, emitting updates through Flow streams. We'll show how to use WorkManager for robust data synchronization tasks."
+  },
+  {
+    id: 7,
+    title: "An Introduction to Web3 and Smart Contracts",
+    category: "Web Development",
+    author: "Aryan Sen",
+    date: "2026-06-08",
+    readTime: "5 min read",
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80",
+    excerpt: "What is Ethereum? What is Solidity? A brief guide on how decentralized web services run and how smart contracts execute logic on blockchain nodes.",
+    content: "Web3 replaces centralized servers with peer-to-peer blockchains. Solidity allows developers to write immutable smart contracts. In this write-up, we go over gas fees, ERC-20 token standards, MetaMask injection protocols, and creating frontend connect buttons."
+  },
+  {
+    id: 8,
+    title: "10 CSS Tricks for High-End Glassmorphism UIs",
+    category: "Web Development",
+    author: "Zara Khan",
+    date: "2026-05-29",
+    readTime: "4 min read",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Learn how to use backdrop-filter, linear opacity gradients, border outlines, and drop-shadow variables to create realistic frosted glass UI elements.",
+    content: "Glassmorphism creates modern, multi-layered interfaces. To master it, utilize backdrop-filter blur, white border strokes with low transparency, dark background shadows, and radial hover gradients to emulate neon glows."
+  },
+  {
+    id: 9,
+    title: "The Ultimate Guide to Git Commit Signatures",
+    category: "Cyber Security",
+    author: "Rahul Verma",
+    date: "2026-05-18",
+    readTime: "5 min read",
+    image: "https://images.unsplash.com/photo-1618401471353-b98aedd07871?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Prevent commit spoofing. Set up GPG keys on your workstation and configure GitHub to display the verified badge next to your code push history.",
+    content: "Git allows anyone to commit code pretending to be another author. Commit signatures prevent spoofing by requiring private cryptographic keys. Learn to generate GPG credentials, add them to your profile settings, and configure automatic signatures on git configurations."
+  },
+  {
+    id: 10,
+    title: "How to Build a Custom Web Scraper in Python",
+    category: "AI",
+    author: "Aarav Gupta",
+    date: "2026-05-02",
+    readTime: "6 min read",
+    image: "https://images.unsplash.com/photo-1527474305487-b87b222841cc?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Extract data legally and efficiently. A tutorial using BeautifulSoup and Selenium to extract prices, headlines, and tabular statistics.",
+    content: "Web scraping parses unstructured web pages into formatted databases. We review using Requests and BeautifulSoup for static HTML, Selenium for SPA script loads, user-agent rotation methods, and robots.txt legality guidelines."
+  },
+  {
+    id: 11,
+    title: "Understanding Time Complexities in Coding Tests",
+    category: "Competitive Programming",
+    author: "Kunal Goel",
+    date: "2026-04-20",
+    readTime: "5 min read",
+    image: "https://images.unsplash.com/photo-1605379399642-870262d3d051?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Never get 'Time Limit Exceeded' (TLE) again. Learn to calculate bounds from constraints and match them to optimal O(N) or O(N log N) algorithms.",
+    content: "Coding platforms typically enforce 1-second limits, corresponding to roughly 10^8 elementary instructions. By reviewing constraints (e.g. N <= 1000 versus N <= 10^5), you can mathematically deduce whether an O(N^2) double loop is acceptable or if you must design an O(N log N) divide-and-conquer strategy."
+  },
+  {
+    id: 12,
+    title: "Exploring Kotlin Coroutines Channels & Select",
+    category: "Android",
+    author: "Devendra Negi",
+    date: "2026-04-05",
+    readTime: "6 min read",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Manage communication streams between concurrent jobs. An in-depth review of channels, producer-consumer models, and multiplexing pipelines.",
+    content: "Kotlin Channels allow safe communication between distinct coroutines. Unlike mutable shared variables, channels pass objects along streams without deadlock risks. We cover Rendezvous, Buffered, Conflated, and Broadcast channels with select statements."
+  },
+  {
+    id: 13,
+    title: "A First Look at CSS Container Queries",
+    category: "Web Development",
+    author: "Simran Kaur",
+    date: "2026-03-24",
+    readTime: "4 min read",
+    image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Media queries respond to the browser viewport. Container queries respond to component wrappers. Learn why this shifts web design systems.",
+    content: "For years, components couldn't alter layout styles based on their grid positions, only the overall screen width. CSS Container Queries resolve this by letting cards modify spacing and columns relative to parent containers. We explore container-type syntax and unit usages."
+  },
+  {
+    id: 14,
+    title: "Machine Learning models deployment via Docker",
+    category: "AI",
+    author: "Neha Dixit",
+    date: "2026-03-12",
+    readTime: "7 min read",
+    image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Avoid 'it works on my machine'. Package your trained model, inference scripts, libraries, and Python environment inside isolated containers.",
+    content: "Deploying machine learning models requires package consistency (numpy, tensorflow version matching). Docker encapsulates runtime dependencies into lightweight execution layers. This guide compiles a multi-stage Dockerfile optimized for inference serving."
+  },
+  {
+    id: 15,
+    title: "WPA3 vs WPA2 Security Protocols",
+    category: "Cyber Security",
+    author: "Dr. Rajesh Verma",
+    date: "2026-02-28",
+    readTime: "5 min read",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Understand how Simultaneous Authentication of Equals (SAE) fixes the vulnerable 4-way handshake present in legacy routers.",
+    content: "WPA2 routers suffer from offline dictionary cracking if handshakes are intercepted. WPA3 replaces PSK exchanges with SAE (Dragonfly handshake), offering forward secrecy and protecting weak passwords from local decryption attempts."
+  },
+  {
+    id: 16,
+    title: "Graph Algorithms: Shortest Paths and MSTs",
+    category: "Competitive Programming",
+    author: "Siddharth Sen",
+    date: "2026-02-14",
+    readTime: "8 min read",
+    image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Deep dive into Dijkstra, Bellman-Ford, Kruskal, and Prim algorithms. Compare time complexities and learn when to apply which.",
+    content: "Graphs show relationships in maps, social links, and scheduling. Navigating them efficiently requires robust algorithms. We review Dijkstra for positive weights, Bellman-Ford for negative weight cycles, and Kruskal using Disjoint Set Unions (DSU) to form MSTs."
+  },
+  {
+    id: 17,
+    title: "Introduction to Reverse Engineering Binaries",
+    category: "Cyber Security",
+    author: "Rahul Verma",
+    date: "2026-01-29",
+    readTime: "7 min read",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80",
+    excerpt: "A beginner-friendly look at assembly, registers, decompilers like Ghidra, and patch testing simple program logic checks.",
+    content: "Reverse engineering reconstructs source concepts from compiled code. Using decompilers (Ghidra, IDA), we look at CPU registers (RAX, RBX), stack frames, assembly instructions (MOV, ADD, JNZ), and how to patch simple conditional statements."
+  },
+  {
+    id: 18,
+    title: "Optimizing Web Vitals for Perfect Lighthouse Scores",
+    category: "Web Development",
+    author: "Priya Nair",
+    date: "2026-01-15",
+    readTime: "6 min read",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Slow sites lose visitors. Learn to minimize Largest Contentful Paint (LCP), Cumulative Layout Shift (CLS), and Interaction to Next Paint (INP).",
+    content: "Lighthouse audit scores impact search rankings and UX. Learn to defer non-critical scripts, pre-render layouts, compress dynamic images to modern format configurations like WebP, and reserve spaces for layout containers to prevent shifts."
+  },
+  {
+    id: 19,
+    title: "What is A/B Testing in Mobile Development?",
+    category: "Android",
+    author: "Ishita Kapoor",
+    date: "2026-01-02",
+    readTime: "5 min read",
+    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=600&q=80",
+    excerpt: "Test UI colors and features before rolling them out globally. Set up remote configuration variables to divide user testing sets.",
+    content: "A/B testing evaluates alternate layouts on users to optimize engagement. Through Firebase Remote Config, we can serve variant components to subset percentages and compare performance using crash reporting and analytics graphs."
+  },
+  {
+    id: 20,
+    title: "Club Highlights: Looking Back at 2025",
+    category: "Club News",
+    author: "Aryan Sen",
+    date: "2025-12-30",
+    readTime: "4 min read",
+    image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=600&q=80",
+    excerpt: "2025 has been a stellar year for ByteCraft! Here's a recap of our bootcamps, hackathon trophies, placements, and goals for 2026.",
+    content: "As 2025 closes, the ByteCraft club celebrates multiple achievements: 5 hackathon wins, 20 guest lectures, and student placements at Google, Microsoft, and Cred. In this review, the core committee outlines upcoming goals, workshops, and plans for the new portal."
+  }
+];

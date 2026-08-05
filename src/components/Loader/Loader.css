@@ -1,0 +1,116 @@
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #020617;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.loader-terminal {
+  width: 100%;
+  max-width: 600px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(124, 58, 237, 0.15);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.terminal-header {
+  background: rgba(30, 41, 59, 0.5);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red { background-color: #ef4444; }
+.terminal-dot.yellow { background-color: #f59e0b; }
+.terminal-dot.green { background-color: #10b981; }
+
+.terminal-title {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  margin-left: 8px;
+}
+
+.terminal-body {
+  padding: 20px;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  min-height: 250px;
+  text-align: left;
+}
+
+.terminal-intro {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #06b6d4;
+  margin-bottom: 16px;
+  font-weight: bold;
+  border-bottom: 1px dashed rgba(6, 182, 212, 0.2);
+  padding-bottom: 8px;
+}
+
+.terminal-icon {
+  animation: pulse 1.5s infinite;
+}
+
+.terminal-logs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.terminal-log-line {
+  line-height: 1.4;
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.terminal-log-line.success {
+  color: #22d3ee;
+  font-weight: bold;
+}
+
+.terminal-prompt {
+  color: #7c3aed;
+  font-weight: bold;
+}
+
+.blinking-cursor {
+  color: #a78bfa;
+  animation: blink 0.8s infinite;
+  margin-left: 4px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

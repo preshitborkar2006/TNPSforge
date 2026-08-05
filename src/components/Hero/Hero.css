@@ -1,0 +1,201 @@
+.hero-section {
+  position: relative;
+  padding: 180px 0 100px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  text-align: left;
+}
+
+.hero-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--color-cyan-glow);
+}
+
+.badge-icon {
+  animation: pulse 1.5s infinite;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.hero-description {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+/* Simulated Code Editor */
+.hero-visual {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.code-editor-card {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg), 0 0 40px rgba(124, 58, 237, 0.1);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: left;
+}
+
+.editor-titlebar {
+  background: rgba(30, 41, 59, 0.4);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.editor-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.editor-dot.red { background-color: #ef4444; }
+.editor-dot.yellow { background-color: #f59e0b; }
+.editor-dot.green { background-color: #10b981; }
+
+.editor-file {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-family: ui-monospace, monospace;
+  margin-left: 8px;
+}
+
+.editor-content {
+  padding: 20px;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.code-line {
+  display: flex;
+  line-height: 1.5;
+}
+
+.line-num {
+  width: 24px;
+  color: var(--text-muted);
+  user-select: none;
+  text-align: right;
+  margin-right: 16px;
+}
+
+.line-text {
+  color: #e2e8f0;
+}
+
+/* Custom code colors */
+.code-line:nth-child(1) .line-text { color: #f43f5e; } /* const */
+.code-line:nth-child(2) .line-text { color: #60a5fa; } /* name */
+.code-line:nth-child(3) .line-text { color: #38bdf8; } /* vision */
+.code-line:nth-child(4) .line-text { color: #a78bfa; } /* motto */
+.code-line:nth-child(5) .line-text { color: #fb7185; } /* skills */
+.code-line:nth-child(6) .line-text { color: #f43f5e; } /* function */
+
+/* Floating UI Badges */
+.floating-badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: float-badge 6s infinite ease-in-out;
+}
+
+.floating-badge .badge-icon.purple {
+  color: var(--color-purple);
+  filter: drop-shadow(0 0 4px rgba(124, 58, 237, 0.5));
+}
+
+.floating-badge .badge-icon.cyan {
+  color: var(--color-cyan);
+  filter: drop-shadow(0 0 4px rgba(6, 182, 212, 0.5));
+}
+
+.badge-top-right {
+  top: 15%;
+  right: -5%;
+}
+
+.badge-bottom-left {
+  bottom: 15%;
+  left: -5%;
+  animation-delay: 3s;
+}
+
+@keyframes float-badge {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+  .hero-section {
+    padding: 140px 0 60px;
+  }
+  .hero-content {
+    align-items: center;
+    text-align: center;
+  }
+  .hero-title {
+    font-size: 2.8rem;
+  }
+}

@@ -1,0 +1,22 @@
+.resources-page {
+  width: 100%;
+  padding-top: 140px;
+}
+
+.resources-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .resources-grid-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .resources-grid-layout {
+    grid-template-columns: 1fr;
+  }
+}
