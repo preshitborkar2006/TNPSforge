@@ -5,7 +5,7 @@ export const members = [
     name: "Dr. Rajesh Verma",
     role: "Faculty Coordinator",
     team: "Faculty",
-    department: "Computer Science",
+    department: "Computer Science and Engineering",
     image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300&q=80",
     socials: {
       email: "rajesh.verma@apex.edu",
