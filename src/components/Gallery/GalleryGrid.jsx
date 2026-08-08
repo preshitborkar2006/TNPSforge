@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { gallery } from "../../data/gallery";
+import { gallery as defaultGallery } from "../../data/gallery";
 import CircularGallery from "./CircularGallery";
 import "./GalleryGrid.css";
 
 export default function GalleryGrid({ limit = null }) {
+  const [gallery] = useState(() => {
+    const saved = localStorage.getItem("admin_gallery");
+    return saved ? JSON.parse(saved) : defaultGallery;
+  });
   const [activeFilter, setActiveFilter] = useState("All");
 
   const categories = ["All", "Hackathons", "Workshops", "Meetups", "Celebrations"];

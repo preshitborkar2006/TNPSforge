@@ -27,15 +27,14 @@ export default function Navbar() {
     { path: "/team", label: "Team" },
     { path: "/gallery", label: "Gallery" },
     { path: "/achievements", label: "Achievements" },
-    { path: "/resources", label: "Resources" },
     { path: "/contact", label: "Contact" }
   ];
 
   return (
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
-      <div className="container navbar-container">
+      <div className="navbar-container">
         <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
-          <Code className="logo-icon" size={20} />
+          <Code className="logo-icon" size={24} />
           <span className="logo-text">
             TNPS<span className="accent-text">Forge</span>
           </span>

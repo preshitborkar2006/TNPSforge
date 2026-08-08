@@ -17,7 +17,7 @@ export default function AboutOverview() {
     {
       icon: <ShieldAlert size={24} className="icon blue" />,
       title: "Succeed",
-      desc: "Prepare for placement seasons, compete in algorithms, and collect global certifications."
+      desc: "Compete in global algorithms, build production-grade projects, and collect international credentials."
     }
   ];
 

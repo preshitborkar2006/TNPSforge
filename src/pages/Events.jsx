@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Terminal, Calendar, SlidersHorizontal } from "lucide-react";
-import { events } from "../data/events";
+import { events as defaultEvents } from "../data/events";
 import EventCard from "../components/Events/EventCard";
 import SlideAnimation from "../animations/SlideAnimation";
 import "./Events.css";
 
 export default function Events() {
+  const [events] = useState(() => {
+    const saved = localStorage.getItem("admin_events");
+    return saved ? JSON.parse(saved) : defaultEvents;
+  });
   const [filter, setFilter] = useState("All");
   const categories = ["All", "Web Development", "AI", "Android", "Cyber Security", "Competitive Programming"];
 

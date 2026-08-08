@@ -216,7 +216,7 @@ export const blogs = [
     date: "2025-12-30",
     readTime: "4 min read",
     image: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&w=600&q=80",
-    excerpt: "2025 has been a stellar year for ByteCraft! Here's a recap of our bootcamps, hackathon trophies, placements, and goals for 2026.",
-    content: "As 2025 closes, the ByteCraft club celebrates multiple achievements: 5 hackathon wins, 20 guest lectures, and student placements at Google, Microsoft, and Cred. In this review, the core committee outlines upcoming goals, workshops, and plans for the new portal."
+    excerpt: "2025 has been a stellar year for TNPS Forge! Here's a recap of our bootcamps, hackathon trophies, workshops, and goals for 2026.",
+    content: "As 2025 closes, the TNPS Forge club celebrates multiple achievements: 5 hackathon wins, 20 guest lectures, and student contributions. In this review, the core committee outlines upcoming goals, workshops, and plans for the new portal."
   }
 ];

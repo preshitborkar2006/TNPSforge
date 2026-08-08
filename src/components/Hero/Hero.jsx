@@ -39,7 +39,7 @@ export default function Hero() {
         >
           <motion.div className="hero-badge" variants={itemVariants}>
             <Terminal size={14} className="badge-icon" />
-            <span>ST.VINCENT PALLOTI COLLEGE..</span>
+            <span>ST.VINCENT PALLOTI COLLEGE NAGPUR..</span>
           </motion.div>
           <motion.h1 className="hero-title" variants={itemVariants}>
             Where Code Meets <span className="text-gradient">Creativity</span> & Passion

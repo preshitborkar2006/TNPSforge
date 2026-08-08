@@ -152,7 +152,8 @@ export default function HyperSpeedBackground() {
       const deltaTime = (now - lastTime) / 1000;
       lastTime = now;
 
-      stateRef.current.time += deltaTime; // increment internal time
+      const state = stateRef.current;
+      state.time += deltaTime; // increment internal time
 
       const width = window.innerWidth;
       const height = window.innerHeight;
@@ -161,19 +162,19 @@ export default function HyperSpeedBackground() {
       ctx.fillStyle = "#030712";
       ctx.fillRect(0, 0, width, height);
 
-      // Radial vignette overlay inside canvas for guaranteed text readability
+      // Radial vignette overlay inside canvas for guaranteed text readability with a breathing effect
+      const centerOpacity = 0.65 + Math.sin(state.time * 1.2) * 0.04;
       const vignette = ctx.createRadialGradient(
         width / 2, height / 2, width * 0.05,
         width / 2, height / 2, Math.max(width, height) * 0.75
       );
-      vignette.addColorStop(0, "rgba(3, 7, 18, 0.65)");
+      vignette.addColorStop(0, `rgba(3, 7, 18, ${centerOpacity})`);
       vignette.addColorStop(0.5, "rgba(3, 7, 18, 0.85)");
       vignette.addColorStop(1, "rgba(3, 7, 18, 0.98)");
       ctx.fillStyle = vignette;
       ctx.fillRect(0, 0, width, height);
 
       // Handle mouse interpolation (smooth rotation / camera tilt)
-      const state = stateRef.current;
       
       // Idle drift logic
       const isIdle = Date.now() - state.lastMouseMoveTime > 3000;
@@ -204,10 +205,17 @@ export default function HyperSpeedBackground() {
           p.z = MAX_DEPTH;
         }
 
-        // Project coordinate
+        // Project coordinate with spiral twist rotation matching stargate curves
         const mouseOffset = 1.0 - p.z / MAX_DEPTH;
-        const projX = (p.x * focalLength) / p.z + width / 2 + state.mouseX * 180 * mouseOffset;
-        const projY = (p.y * focalLength) / p.z + height / 2 + state.mouseY * 180 * mouseOffset;
+        const basePX = (p.x * focalLength) / p.z;
+        const basePY = (p.y * focalLength) / p.z;
+        const angle = state.time * 0.12 + p.z * 0.0006;
+        const cosA = Math.cos(angle);
+        const sinA = Math.sin(angle);
+        const rx = basePX * cosA - basePY * sinA;
+        const ry = basePX * sinA + basePY * cosA;
+        const projX = rx + width / 2 + state.mouseX * 180 * mouseOffset;
+        const projY = ry + height / 2 + state.mouseY * 180 * mouseOffset;
 
         // Size calculation
         const size = (p.size * focalLength) / p.z;
@@ -247,11 +255,30 @@ export default function HyperSpeedBackground() {
         const mouseOffsetFront = 1.0 - zFront / MAX_DEPTH;
         const mouseOffsetBack = 1.0 - zBack / MAX_DEPTH;
 
-        const projXFront = (s.x * focalLength) / zFront + width / 2 + state.mouseX * 220 * mouseOffsetFront;
-        const projYFront = (s.y * focalLength) / zFront + height / 2 + state.mouseY * 220 * mouseOffsetFront;
+        // Base linear projection
+        const baseFrontX = (s.x * focalLength) / zFront;
+        const baseFrontY = (s.y * focalLength) / zFront;
+        const baseBackX = (s.x * focalLength) / zBack;
+        const baseBackY = (s.y * focalLength) / zBack;
 
-        const projXBack = (s.x * focalLength) / zBack + width / 2 + state.mouseX * 220 * mouseOffsetBack;
-        const projYBack = (s.y * focalLength) / zBack + height / 2 + state.mouseY * 220 * mouseOffsetBack;
+        // Apply spiral 3D curves
+        const angleFront = state.time * 0.12 + zFront * 0.0006;
+        const cosF = Math.cos(angleFront);
+        const sinF = Math.sin(angleFront);
+        const rxFront = baseFrontX * cosF - baseFrontY * sinF;
+        const ryFront = baseFrontX * sinF + baseFrontY * cosF;
+
+        const angleBack = state.time * 0.12 + zBack * 0.0006;
+        const cosB = Math.cos(angleBack);
+        const sinB = Math.sin(angleBack);
+        const rxBack = baseBackX * cosB - baseBackY * sinB;
+        const ryBack = baseBackX * sinB + baseBackY * cosB;
+
+        const projXFront = rxFront + width / 2 + state.mouseX * 220 * mouseOffsetFront;
+        const projYFront = ryFront + height / 2 + state.mouseY * 220 * mouseOffsetFront;
+
+        const projXBack = rxBack + width / 2 + state.mouseX * 220 * mouseOffsetBack;
+        const projYBack = ryBack + height / 2 + state.mouseY * 220 * mouseOffsetBack;
 
         // Calculate opacity based on depth to prevent screen clutter at close distances
         let alpha = 1.0;

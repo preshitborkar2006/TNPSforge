@@ -1,16 +1,42 @@
 import { useState } from "react";
-import { Terminal, Users, Calendar, BookOpen, Layers, BarChart3, Plus, Trash2, Mail, CheckCircle } from "lucide-react";
+import { 
+  Terminal, 
+  Users, 
+  Calendar, 
+  BookOpen, 
+  Layers, 
+  BarChart3, 
+  Plus, 
+  Trash2, 
+  Mail, 
+  CheckCircle,
+  Image as ImageIcon,
+  Award,
+  LogOut,
+  ShieldAlert
+} from "lucide-react";
 import { events as defaultEvents } from "../data/events";
 import { blogs as defaultBlogs } from "../data/blogs";
 import { members as defaultMembers } from "../data/members";
 import { projects as defaultProjects } from "../data/projects";
+import { gallery as defaultGallery } from "../data/gallery";
+import { achievements as defaultAchievements } from "../data/achievements";
 import SlideAnimation from "../animations/SlideAnimation";
 import "./Admin.css";
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("overview");
 
-  // State loaded from localStorage or defaults
+  // Admin authentication state
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem("bytecraft_user");
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  const [authForm, setAuthForm] = useState({ email: "", password: "" });
+  const [authError, setAuthError] = useState("");
+
+  // Simulated datasets loaded from localStorage or defaults
   const [events, setEvents] = useState(() => {
     const saved = localStorage.getItem("admin_events");
     return saved ? JSON.parse(saved) : defaultEvents;
@@ -27,6 +53,14 @@ export default function Admin() {
     const saved = localStorage.getItem("admin_projects");
     return saved ? JSON.parse(saved) : defaultProjects;
   });
+  const [gallery, setGallery] = useState(() => {
+    const saved = localStorage.getItem("admin_gallery");
+    return saved ? JSON.parse(saved) : defaultGallery;
+  });
+  const [achievements, setAchievements] = useState(() => {
+    const saved = localStorage.getItem("admin_achievements");
+    return saved ? JSON.parse(saved) : defaultAchievements;
+  });
 
   const [registrations, setRegistrations] = useState(() => {
     return JSON.parse(localStorage.getItem("bytecraft_registrations") || "[]");
@@ -40,7 +74,10 @@ export default function Admin() {
   const [blogForm, setBlogForm] = useState({ title: "", category: "Web Development", author: "", date: "", excerpt: "", content: "" });
   const [memberForm, setMemberForm] = useState({ name: "", role: "", team: "Developers", department: "" });
   const [projectForm, setProjectForm] = useState({ title: "", category: "Web Development", description: "", tech: "", team: "" });
+  const [galleryForm, setGalleryForm] = useState({ title: "", category: "Hackathons", date: "", image: "" });
+  const [achievementForm, setAchievementForm] = useState({ title: "", category: "Hackathon Wins", winner: "", date: "", description: "", metric: "" });
 
+  // LocalStorage synchronizers
   const saveAndSetEvents = (newEvents) => {
     setEvents(newEvents);
     localStorage.setItem("admin_events", JSON.stringify(newEvents));
@@ -57,15 +94,23 @@ export default function Admin() {
     setProjects(newProjects);
     localStorage.setItem("admin_projects", JSON.stringify(newProjects));
   };
+  const saveAndSetGallery = (newGallery) => {
+    setGallery(newGallery);
+    localStorage.setItem("admin_gallery", JSON.stringify(newGallery));
+  };
+  const saveAndSetAchievements = (newAchievements) => {
+    setAchievements(newAchievements);
+    localStorage.setItem("admin_achievements", JSON.stringify(newAchievements));
+  };
 
-  // Add Handlers
+  // Add Item Handlers
   const handleAddEvent = (e) => {
     e.preventDefault();
     if (!eventForm.title || !eventForm.date) return;
     const newEvent = {
       ...eventForm,
       id: Date.now(),
-      status: "upcoming",
+      status: new Date(eventForm.date) >= new Date() ? "upcoming" : "past",
       image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80"
     };
     saveAndSetEvents([newEvent, ...events]);
@@ -104,8 +149,8 @@ export default function Admin() {
     const newProj = {
       ...projectForm,
       id: Date.now(),
-      tech: projectForm.tech.split(",").map(t => t.trim()),
-      team: projectForm.team.split(",").map(t => t.trim()),
+      tech: projectForm.tech.split(",").map(t => t.trim()).filter(Boolean),
+      team: projectForm.team.split(",").map(t => t.trim()).filter(Boolean),
       github: "#",
       live: "#",
       image: "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80"
@@ -114,11 +159,102 @@ export default function Admin() {
     setProjectForm({ title: "", category: "Web Development", description: "", tech: "", team: "" });
   };
 
-  // Delete Handlers
+  const handleAddGallery = (e) => {
+    e.preventDefault();
+    if (!galleryForm.title) return;
+    const newGal = {
+      ...galleryForm,
+      id: Date.now(),
+      image: galleryForm.image || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80"
+    };
+    saveAndSetGallery([newGal, ...gallery]);
+    setGalleryForm({ title: "", category: "Hackathons", date: "", image: "" });
+  };
+
+  const handleAddAchievement = (e) => {
+    e.preventDefault();
+    if (!achievementForm.title || !achievementForm.winner) return;
+    const newAch = {
+      ...achievementForm,
+      id: Date.now()
+    };
+    saveAndSetAchievements([newAch, ...achievements]);
+    setAchievementForm({ title: "", category: "Hackathon Wins", winner: "", date: "", description: "", metric: "" });
+  };
+
+  // Delete Item Handlers
   const handleDeleteEvent = (id) => saveAndSetEvents(events.filter(e => e.id !== id));
   const handleDeleteBlog = (id) => saveAndSetBlogs(blogs.filter(b => b.id !== id));
   const handleDeleteMember = (id) => saveAndSetMembers(members.filter(m => m.id !== id));
   const handleDeleteProject = (id) => saveAndSetProjects(projects.filter(p => p.id !== id));
+  const handleDeleteGallery = (id) => saveAndSetGallery(gallery.filter(g => g.id !== id));
+  const handleDeleteAchievement = (id) => saveAndSetAchievements(achievements.filter(a => a.id !== id));
+
+  // Authentication Logic
+  const handleAuthLogin = (e) => {
+    e.preventDefault();
+    // Set admin user in local storage if email includes "admin"
+    if (authForm.email.toLowerCase().includes("admin")) {
+      const loggedUser = { email: authForm.email, isAdmin: true };
+      localStorage.setItem("bytecraft_user", JSON.stringify(loggedUser));
+      setUser(loggedUser);
+      setAuthError("");
+    } else {
+      setAuthError("Invalid credentials. Root Access requires administrator permissions.");
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("bytecraft_user");
+    setUser(null);
+  };
+
+  // Secure Lockscreen render
+  if (!user || !user.isAdmin) {
+    return (
+      <div className="admin-page section-padding">
+        <div className="container admin-container" style={{ maxWidth: "460px", margin: "0 auto" }}>
+          <SlideAnimation className="admin-lockscreen glass-card">
+            <div className="lockscreen-header">
+              <ShieldAlert size={42} className="lock-icon" />
+              <h2>Root Secure Gate</h2>
+              <p>TNPS Forge administrative access is encrypted.</p>
+            </div>
+            
+            {authError && <div className="auth-error-banner">{authError}</div>}
+            
+            <form onSubmit={handleAuthLogin} className="lockscreen-form">
+              <div className="form-group">
+                <label className="form-label">Authorized Email Address</label>
+                <input 
+                  type="email" 
+                  className="form-input" 
+                  placeholder="admin@apex.edu" 
+                  value={authForm.email} 
+                  onChange={e => setAuthForm({ ...authForm, email: e.target.value })} 
+                  required 
+                />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Terminal Password</label>
+                <input 
+                  type="password" 
+                  className="form-input" 
+                  placeholder="••••••••" 
+                  value={authForm.password} 
+                  onChange={e => setAuthForm({ ...authForm, password: e.target.value })} 
+                  required 
+                />
+              </div>
+              <button type="submit" className="btn btn-primary btn-block" style={{ width: "100%", marginTop: "10px" }}>
+                Authenticate Session
+              </button>
+            </form>
+          </SlideAnimation>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="admin-page section-padding">
@@ -151,11 +287,21 @@ export default function Admin() {
             <button className={`admin-tab ${activeTab === "projects" ? "active" : ""}`} onClick={() => setActiveTab("projects")}>
               <Layers size={18} /> Manage Projects
             </button>
+            <button className={`admin-tab ${activeTab === "gallery" ? "active" : ""}`} onClick={() => setActiveTab("gallery")}>
+              <ImageIcon size={18} /> Manage Gallery
+            </button>
+            <button className={`admin-tab ${activeTab === "achievements" ? "active" : ""}`} onClick={() => setActiveTab("achievements")}>
+              <Award size={18} /> Achievements
+            </button>
             <button className={`admin-tab ${activeTab === "registrations" ? "active" : ""}`} onClick={() => setActiveTab("registrations")}>
               <CheckCircle size={18} /> Registrations ({registrations.length})
             </button>
             <button className={`admin-tab ${activeTab === "messages" ? "active" : ""}`} onClick={() => setActiveTab("messages")}>
               <Mail size={18} /> Messages ({messages.length})
+            </button>
+            
+            <button className="admin-tab logout-tab" onClick={handleLogout}>
+              <LogOut size={18} /> Log Out Console
             </button>
           </div>
 
@@ -267,20 +413,20 @@ export default function Admin() {
             {activeTab === "blogs" && (
               <SlideAnimation className="tab-pane-flow">
                 <div className="form-block-wrapper glass-card">
-                  <h3>Write New Blog Post</h3>
+                  <h3>Add Mock Tech Blog</h3>
                   <form onSubmit={handleAddBlog} className="admin-inline-form">
                     <div className="form-group">
-                      <label className="form-label">Post Title</label>
-                      <input type="text" className="form-input" placeholder="Understanding REST" value={blogForm.title} onChange={e => setBlogForm({...blogForm, title: e.target.value})} required />
+                      <label className="form-label">Blog Title</label>
+                      <input type="text" className="form-input" placeholder="e.g. Mastering React" value={blogForm.title} onChange={e => setBlogForm({...blogForm, title: e.target.value})} required />
                     </div>
                     <div className="form-row-double">
                       <div className="form-group">
                         <label className="form-label">Author Name</label>
-                        <input type="text" className="form-input" placeholder="Jane Doe" value={blogForm.author} onChange={e => setBlogForm({...blogForm, author: e.target.value})} required />
+                        <input type="text" className="form-input" placeholder="Aryan Sen" value={blogForm.author} onChange={e => setBlogForm({...blogForm, author: e.target.value})} required />
                       </div>
                       <div className="form-group">
-                        <label className="form-label">Date</label>
-                        <input type="date" className="form-input" value={blogForm.date} onChange={e => setBlogForm({...blogForm, date: e.target.value})} required />
+                        <label className="form-label">Publish Date</label>
+                        <input type="text" className="form-input" placeholder="e.g. Jul 28, 2026" value={blogForm.date} onChange={e => setBlogForm({...blogForm, date: e.target.value})} />
                       </div>
                     </div>
                     <div className="form-group">
@@ -295,14 +441,14 @@ export default function Admin() {
                       </select>
                     </div>
                     <div className="form-group">
-                      <label className="form-label">Excerpt Summary</label>
-                      <input type="text" className="form-input" placeholder="Short description" value={blogForm.excerpt} onChange={e => setBlogForm({...blogForm, excerpt: e.target.value})} />
+                      <label className="form-label">Excerpt Description</label>
+                      <input type="text" className="form-input" placeholder="Short preview text" value={blogForm.excerpt} onChange={e => setBlogForm({...blogForm, excerpt: e.target.value})} />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Content Body</label>
-                      <textarea className="form-input" rows="4" placeholder="Full blog text..." value={blogForm.content} onChange={e => setBlogForm({...blogForm, content: e.target.value})}></textarea>
+                      <textarea className="form-input" rows="4" placeholder="Blog Markdown/Text" value={blogForm.content} onChange={e => setBlogForm({...blogForm, content: e.target.value})}></textarea>
                     </div>
-                    <button type="submit" className="btn btn-primary"><Plus size={16} /> Compile Post</button>
+                    <button type="submit" className="btn btn-primary"><Plus size={16} /> Compile Blog</button>
                   </form>
                 </div>
 
@@ -327,43 +473,46 @@ export default function Admin() {
             {activeTab === "members" && (
               <SlideAnimation className="tab-pane-flow">
                 <div className="form-block-wrapper glass-card">
-                  <h3>Add Mock Club Member</h3>
+                  <h3>Add Club Representative</h3>
                   <form onSubmit={handleAddMember} className="admin-inline-form">
                     <div className="form-group">
-                      <label className="form-label">Full Name</label>
-                      <input type="text" className="form-input" placeholder="Joe Smith" value={memberForm.name} onChange={e => setMemberForm({...memberForm, name: e.target.value})} required />
+                      <label className="form-label">FullName</label>
+                      <input type="text" className="form-input" placeholder="e.g. Priya Sharma" value={memberForm.name} onChange={e => setMemberForm({...memberForm, name: e.target.value})} required />
                     </div>
                     <div className="form-row-double">
                       <div className="form-group">
-                        <label className="form-label">Role Title</label>
-                        <input type="text" className="form-input" placeholder="e.g. Lead Developer" value={memberForm.role} onChange={e => setMemberForm({...memberForm, role: e.target.value})} required />
+                        <label className="form-label">Representative Role</label>
+                        <input type="text" className="form-input" placeholder="e.g. Technical Lead" value={memberForm.role} onChange={e => setMemberForm({...memberForm, role: e.target.value})} required />
                       </div>
                       <div className="form-group">
-                        <label className="form-label">Department</label>
-                        <input type="text" className="form-input" placeholder="Computer Science" value={memberForm.department} onChange={e => setMemberForm({...memberForm, department: e.target.value})} />
+                        <label className="form-label">Department / Branch</label>
+                        <input type="text" className="form-input" placeholder="CSE" value={memberForm.department} onChange={e => setMemberForm({...memberForm, department: e.target.value})} />
                       </div>
                     </div>
                     <div className="form-group">
-                      <label className="form-label">Designated Group</label>
+                      <label className="form-label">Guild Allocation (Team)</label>
                       <select className="form-input select-input" value={memberForm.team} onChange={e => setMemberForm({...memberForm, team: e.target.value})}>
+                        <option value="Faculty">Faculty</option>
+                        <option value="President">President</option>
+                        <option value="Vice President">Vice President</option>
                         <option value="Technical Leads">Technical Leads</option>
                         <option value="Design Team">Design Team</option>
                         <option value="Management Team">Management Team</option>
                         <option value="Developers">Developers</option>
                       </select>
                     </div>
-                    <button type="submit" className="btn btn-primary"><Plus size={16} /> Add Member</button>
+                    <button type="submit" className="btn btn-primary"><Plus size={16} /> Link Representative</button>
                   </form>
                 </div>
 
                 <div className="admin-list-card glass-card">
-                  <h3>Current Team Members ({members.length})</h3>
+                  <h3>Active Representative Directory ({members.length})</h3>
                   <div className="admin-list-container">
                     {members.map(m => (
                       <div key={m.id} className="admin-list-item">
                         <div>
                           <h4>{m.name}</h4>
-                          <span>{m.role} ({m.team})</span>
+                          <span>{m.role} • {m.team}</span>
                         </div>
                         <button className="delete-row-btn" onClick={() => handleDeleteMember(m.id)}><Trash2 size={16} /></button>
                       </div>
@@ -377,11 +526,11 @@ export default function Admin() {
             {activeTab === "projects" && (
               <SlideAnimation className="tab-pane-flow">
                 <div className="form-block-wrapper glass-card">
-                  <h3>Add Mock Project</h3>
+                  <h3>Compile Team Project</h3>
                   <form onSubmit={handleAddProject} className="admin-inline-form">
                     <div className="form-group">
                       <label className="form-label">Project Title</label>
-                      <input type="text" className="form-input" placeholder="EcoScan App" value={projectForm.title} onChange={e => setProjectForm({...projectForm, title: e.target.value})} required />
+                      <input type="text" className="form-input" placeholder="e.g. Smart Campus Map" value={projectForm.title} onChange={e => setProjectForm({...projectForm, title: e.target.value})} required />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Category</label>
@@ -394,8 +543,8 @@ export default function Admin() {
                       </select>
                     </div>
                     <div className="form-group">
-                      <label className="form-label">Technologies (comma separated)</label>
-                      <input type="text" className="form-input" placeholder="React, PyTorch" value={projectForm.tech} onChange={e => setProjectForm({...projectForm, tech: e.target.value})} />
+                      <label className="form-label">Tech Stack (comma separated)</label>
+                      <input type="text" className="form-input" placeholder="React, Node.js, Express" value={projectForm.tech} onChange={e => setProjectForm({...projectForm, tech: e.target.value})} />
                     </div>
                     <div className="form-group">
                       <label className="form-label">Team Members (comma separated)</label>
@@ -419,6 +568,119 @@ export default function Admin() {
                           <span>{p.category} • Team: {p.team.join(", ")}</span>
                         </div>
                         <button className="delete-row-btn" onClick={() => handleDeleteProject(p.id)}><Trash2 size={16} /></button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </SlideAnimation>
+            )}
+
+            {/* Tab: Manage Gallery */}
+            {activeTab === "gallery" && (
+              <SlideAnimation className="tab-pane-flow">
+                <div className="form-block-wrapper glass-card">
+                  <h3>Add Gallery Record</h3>
+                  <form onSubmit={handleAddGallery} className="admin-inline-form">
+                    <div className="form-group">
+                      <label className="form-label">Image Event Title</label>
+                      <input type="text" className="form-input" placeholder="e.g. Hackathon Final Showcase" value={galleryForm.title} onChange={e => setGalleryForm({...galleryForm, title: e.target.value})} required />
+                    </div>
+                    <div className="form-row-double">
+                      <div className="form-group">
+                        <label className="form-label">Category</label>
+                        <select className="form-input select-input" value={galleryForm.category} onChange={e => setGalleryForm({...galleryForm, category: e.target.value})}>
+                          <option value="Hackathons">Hackathons</option>
+                          <option value="Workshops">Workshops</option>
+                          <option value="Meetups">Meetups</option>
+                          <option value="Celebrations">Celebrations</option>
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Date</label>
+                        <input type="text" className="form-input" placeholder="e.g. Jul 20, 2026" value={galleryForm.date} onChange={e => setGalleryForm({...galleryForm, date: e.target.value})} />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Image URL</label>
+                      <input type="text" className="form-input" placeholder="https://images.unsplash.com/..." value={galleryForm.image} onChange={e => setGalleryForm({...galleryForm, image: e.target.value})} />
+                    </div>
+                    <button type="submit" className="btn btn-primary"><Plus size={16} /> Publish to Gallery</button>
+                  </form>
+                </div>
+
+                <div className="admin-list-card glass-card">
+                  <h3>Gallery Repository ({gallery.length})</h3>
+                  <div className="admin-list-container">
+                    {gallery.map(g => (
+                      <div key={g.id} className="admin-list-item">
+                        <div className="admin-list-item-meta">
+                          <img src={g.image} alt={g.title} className="admin-list-thumbnail" />
+                          <div>
+                            <h4>{g.title}</h4>
+                            <span>{g.category} • {g.date}</span>
+                          </div>
+                        </div>
+                        <button className="delete-row-btn" onClick={() => handleDeleteGallery(g.id)}><Trash2 size={16} /></button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </SlideAnimation>
+            )}
+
+            {/* Tab: Achievements */}
+            {activeTab === "achievements" && (
+              <SlideAnimation className="tab-pane-flow">
+                <div className="form-block-wrapper glass-card">
+                  <h3>Log Record/Award Achievement</h3>
+                  <form onSubmit={handleAddAchievement} className="admin-inline-form">
+                    <div className="form-group">
+                      <label className="form-label">Award Title</label>
+                      <input type="text" className="form-input" placeholder="e.g. 1st Place - Smart India Hackathon" value={achievementForm.title} onChange={e => setAchievementForm({...achievementForm, title: e.target.value})} required />
+                    </div>
+                    <div className="form-row-double">
+                      <div className="form-group">
+                        <label className="form-label">Winner Name</label>
+                        <input type="text" className="form-input" placeholder="Team Titan / Student Name" value={achievementForm.winner} onChange={e => setAchievementForm({...achievementForm, winner: e.target.value})} required />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Event Date</label>
+                        <input type="text" className="form-input" placeholder="e.g. Aug 2026" value={achievementForm.date} onChange={e => setAchievementForm({...achievementForm, date: e.target.value})} />
+                      </div>
+                    </div>
+                    <div className="form-row-double">
+                      <div className="form-group">
+                        <label className="form-label">Category</label>
+                        <select className="form-input select-input" value={achievementForm.category} onChange={e => setAchievementForm({...achievementForm, category: e.target.value})}>
+                          <option value="Hackathon Wins">Hackathon Wins</option>
+                          <option value="Certifications">Certifications</option>
+                          <option value="Leaderboards">Leaderboards</option>
+                          <option value="Hall of Fame">Hall of Fame</option>
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">Metric / High Record Score</label>
+                        <input type="text" className="form-input" placeholder="e.g. Cash Prize ₹1,00,000" value={achievementForm.metric} onChange={e => setAchievementForm({...achievementForm, metric: e.target.value})} />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label className="form-label">Brief Description</label>
+                      <textarea className="form-input" rows="2" placeholder="Brief outline" value={achievementForm.description} onChange={e => setAchievementForm({...achievementForm, description: e.target.value})}></textarea>
+                    </div>
+                    <button type="submit" className="btn btn-primary"><Plus size={16} /> Record Achievement</button>
+                  </form>
+                </div>
+
+                <div className="admin-list-card glass-card">
+                  <h3>Achievements Log ({achievements.length})</h3>
+                  <div className="admin-list-container">
+                    {achievements.map(a => (
+                      <div key={a.id} className="admin-list-item">
+                        <div>
+                          <h4>{a.title}</h4>
+                          <span>Recipient: {a.winner} • {a.category}</span>
+                        </div>
+                        <button className="delete-row-btn" onClick={() => handleDeleteAchievement(a.id)}><Trash2 size={16} /></button>
                       </div>
                     ))}
                   </div>

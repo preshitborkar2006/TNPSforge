@@ -1,4 +1,4 @@
-import { Award, Zap, Trophy, ShieldCheck } from "lucide-react";
+import { Award, Trophy, ShieldCheck } from "lucide-react";
 import "./AchievementCard.css";
 
 export default function AchievementCard({ achievement }) {
@@ -8,8 +8,6 @@ export default function AchievementCard({ achievement }) {
     switch (category) {
       case "Hackathon Wins":
         return <Trophy className="ach-icon yellow" size={24} />;
-      case "Placements":
-        return <Zap className="ach-icon purple" size={24} />;
       case "Certifications":
         return <ShieldCheck className="ach-icon cyan" size={24} />;
       default:

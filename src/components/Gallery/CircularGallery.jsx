@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { X } from "lucide-react";
+import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import "./CircularGallery.css";
 
 // GalleryCard handles mouse hover 3D tilt tracking for each card
@@ -70,18 +70,19 @@ export default function CircularGallery({ items }) {
   const lastXRef = useRef(0);
   const isHoveredRef = useRef(false);
   const activeIndexRef = useRef(0);
+  const targetRotationRef = useRef(0);
 
   // Compute positions inside requestAnimationFrame loop to bypass React re-renders at 60fps
   const updatePositions = useCallback(() => {
     if (!items || items.length === 0) return;
     const width = window.innerWidth;
     
-    // Calculate radius metrics responsively
-    let rX = 480;
-    let rY = 80;
-    if (width < 480) { rX = 130; rY = 25; }
-    else if (width < 768) { rX = 220; rY = 40; }
-    else if (width < 1024) { rX = 350; rY = 60; }
+    // Calculate radius metrics responsively (enlarged for better UI presence)
+    let rX = 520;
+    let rY = 90;
+    if (width < 480) { rX = 145; rY = 30; }
+    else if (width < 768) { rX = 250; rY = 45; }
+    else if (width < 1024) { rX = 390; rY = 70; }
     
     const N = items.length;
     const currentRotation = rotationRef.current;
@@ -128,15 +129,24 @@ export default function CircularGallery({ items }) {
     let animationId;
     
     const animate = () => {
-      
-      if (!isDraggingRef.current) {
-        // Apply inertia drag decay
-        rotationRef.current += inertiaRef.current;
-        inertiaRef.current *= 0.92;
-        
-        // Continuous slow float if idle and not dragged
-        if (!isHoveredRef.current && Math.abs(inertiaRef.current) < 0.001) {
-          rotationRef.current += 0.0015;
+      if (isDraggingRef.current) {
+        // Keep target rotation in sync while dragging
+        targetRotationRef.current = rotationRef.current;
+      } else {
+        // If there is significant velocity inertia, apply it
+        if (Math.abs(inertiaRef.current) > 0.0001) {
+          rotationRef.current += inertiaRef.current;
+          inertiaRef.current *= 0.92;
+          targetRotationRef.current = rotationRef.current;
+        } else {
+          // Smoothly ease towards targetRotationRef (clicked card or auto-rotating angle)
+          const diff = targetRotationRef.current - rotationRef.current;
+          rotationRef.current += diff * 0.08; // smooth spring constant
+          
+          // Continuous slow drift if not hovered and not dragging
+          if (!isHoveredRef.current) {
+            targetRotationRef.current += 0.0015;
+          }
         }
       }
       
@@ -258,6 +268,30 @@ export default function CircularGallery({ items }) {
     handleDragEnd();
   };
 
+  const handleNext = (e) => {
+    e.stopPropagation();
+    const N = items.length;
+    if (N === 0) return;
+    const nextIdx = (activeIndex + 1) % N;
+    const targetAngle = -nextIdx * (2 * Math.PI) / N;
+    let diff = targetAngle - rotationRef.current;
+    diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+    targetRotationRef.current = rotationRef.current + diff;
+    inertiaRef.current = 0;
+  };
+
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    const N = items.length;
+    if (N === 0) return;
+    const prevIdx = (activeIndex - 1 + N) % N;
+    const targetAngle = -prevIdx * (2 * Math.PI) / N;
+    let diff = targetAngle - rotationRef.current;
+    diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+    targetRotationRef.current = rotationRef.current + diff;
+    inertiaRef.current = 0;
+  };
+
   return (
     <div className="circular-gallery-wrapper">
       <div
@@ -276,6 +310,18 @@ export default function CircularGallery({ items }) {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
+        {/* Navigation Control Buttons */}
+        {items && items.length > 1 && (
+          <>
+            <button className="gallery-nav-btn prev" onClick={handlePrev} aria-label="Previous image">
+              <ChevronLeft size={22} />
+            </button>
+            <button className="gallery-nav-btn next" onClick={handleNext} aria-label="Next image">
+              <ChevronRight size={22} />
+            </button>
+          </>
+        )}
+
         {/* Gallery Background Orbs & Spotlight */}
         <div className="gallery-bg-glow">
           <div className="bg-orb-1" />
@@ -310,19 +356,18 @@ export default function CircularGallery({ items }) {
                 item={item}
                 isActive={idx === activeIndex}
                 onClick={() => {
-                  // Only open click lightbox if the card is at the front (active) or click directly
                   if (idx === activeIndex) {
                     setSelectedImage(item);
                   } else {
-                    // Pull item to front on click
+                    // Smoothly pull item to the front using shortest-path trigonometry
                     const N = items.length;
-                    const diff = activeIndex - idx;
-                    // Adjust diff to rotate the shortest path
-                    let shortDiff = diff;
-                    if (Math.abs(diff) > N / 2) {
-                      shortDiff = diff > 0 ? diff - N : diff + N;
-                    }
-                    inertiaRef.current = shortDiff * (2 * Math.PI / N) * 0.15;
+                    const targetAngle = -idx * (2 * Math.PI) / N;
+                    // Find difference and normalize to [-PI, PI]
+                    let diff = targetAngle - rotationRef.current;
+                    diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+                    // Set new target rotation
+                    targetRotationRef.current = rotationRef.current + diff;
+                    inertiaRef.current = 0; // stop any ongoing momentum
                   }
                 }}
               />

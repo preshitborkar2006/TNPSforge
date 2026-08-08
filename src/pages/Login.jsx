@@ -14,14 +14,9 @@ export default function Login() {
     e.preventDefault();
     if (!email || !password) return;
 
-    // Simulate validation - we let any student log in, but if admin credentials are provided, mark as admin
-    if (email.includes("admin")) {
-      localStorage.setItem("bytecraft_user", JSON.stringify({ email, isAdmin: true }));
-    } else {
-      localStorage.setItem("bytecraft_user", JSON.stringify({ email, isAdmin: false }));
-    }
-
-    navigate("/admin");
+    // Standard student authentication only (admin access is barred from this portal)
+    localStorage.setItem("bytecraft_user", JSON.stringify({ email, isAdmin: false }));
+    navigate("/");
   };
 
   return (
@@ -31,7 +26,7 @@ export default function Login() {
           <div className="login-header">
             <Terminal size={32} className="login-logo-icon" />
             <h2>Welcome Back, coder</h2>
-            <p>Access your ByteCraft developer account dashboard.</p>
+            <p>Access your TNPS Forge student developer portal.</p>
           </div>
 
           <form onSubmit={handleLogin} className="login-form">
@@ -79,10 +74,10 @@ export default function Login() {
           </div>
 
           <div className="oauth-buttons">
-            <button className="btn btn-secondary oauth-btn" onClick={() => navigate("/admin")}>
+            <button className="btn btn-secondary oauth-btn" onClick={() => navigate("/")}>
               <Chrome size={16} /> Google
             </button>
-            <button className="btn btn-secondary oauth-btn" onClick={() => navigate("/admin")}>
+            <button className="btn btn-secondary oauth-btn" onClick={() => navigate("/")}>
               <Github size={16} /> GitHub
             </button>
           </div>

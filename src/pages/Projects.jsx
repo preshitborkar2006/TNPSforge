@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Terminal, Search } from "lucide-react";
-import { projects } from "../data/projects";
+import { projects as defaultProjects } from "../data/projects";
 import ProjectCard from "../components/Projects/ProjectCard";
 import SlideAnimation from "../animations/SlideAnimation";
 import "./Projects.css";
 
 export default function Projects() {
+  const [projects] = useState(() => {
+    const saved = localStorage.getItem("admin_projects");
+    return saved ? JSON.parse(saved) : defaultProjects;
+  });
   const [filter, setFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const categories = ["All", "Web Development", "AI", "Android", "Cyber Security", "Competitive Programming"];

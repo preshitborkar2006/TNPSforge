@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { Terminal, Award, SlidersHorizontal } from "lucide-react";
-import { achievements } from "../data/achievements";
+import { achievements as defaultAchievements } from "../data/achievements";
 import AchievementCard from "../components/Achievements/AchievementCard";
 import SlideAnimation from "../animations/SlideAnimation";
 import "./Achievements.css";
 
 export default function Achievements() {
+  const [achievements] = useState(() => {
+    const saved = localStorage.getItem("admin_achievements");
+    return saved ? JSON.parse(saved) : defaultAchievements;
+  });
   const [filter, setFilter] = useState("All");
-  const categories = ["All", "Hackathon Wins", "Placements", "Certifications", "Leaderboards", "Hall of Fame"];
+  const categories = ["All", "Hackathon Wins", "Certifications", "Leaderboards", "Hall of Fame"];
 
   // Filter achievements
   const filteredAchievements = filter === "All"
@@ -16,7 +20,7 @@ export default function Achievements() {
 
   const hallOfFame = [
     { name: "Siddharth Sen", title: "Codeforces Candidate Master", year: "2026", desc: "First AIT student to hit 1900+ Codeforces rating in JavaScript/C++." },
-    { name: "Shreya Roy", title: "Google SDE Offer", year: "2026", desc: "Secured direct entry into Google's core systems developer team in Bangalore." },
+    { name: "Shreya Roy", title: "AWS Global Certified Gold Medalist", year: "2026", desc: "Ranked in the top 0.1% worldwide in the AWS Cloud Architecture Challenge." },
     { name: "Aryan Sen", title: "Smart India Hackathon Lead", year: "2025", desc: "Led the developer division to construct AI model crops scanning modules." }
   ];
 
@@ -30,7 +34,7 @@ export default function Achievements() {
             <span>HALL OF FAME</span>
           </div>
           <h2>TNPS Forge <span className="text-gradient">Club Records</span></h2>
-          <p>Review our historic hackathon trophies, SDE placements, and technical certifications.</p>
+          <p>Review our historic hackathon trophies, programming milestones, and technical certifications.</p>
         </div>
 
         {/* Counter Summary Widgets */}
@@ -40,8 +44,8 @@ export default function Achievements() {
             <p>Hackathon Trophies</p>
           </div>
           <div className="summary-widget glass-card">
-            <h3>8 LPA</h3>
-            <p>Highest SDE Placement</p>
+            <h3>100+</h3>
+            <p>Members Trained</p>
           </div>
           <div className="summary-widget glass-card">
             <h3>50+</h3>

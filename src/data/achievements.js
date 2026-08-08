@@ -10,15 +10,6 @@ export const achievements = [
   },
   {
     id: 2,
-    title: "Google SDE Placement - Microsoft & Google",
-    category: "Placements",
-    winner: "Shreya Roy & Siddharth Sen",
-    date: "2026-05-10",
-    description: "Club members secured Software Development Engineer positions at Google and Microsoft with record packages.",
-    metric: "Package: 45+ LPA"
-  },
-  {
-    id: 3,
     title: "AWS Certified Solutions Architect",
     category: "Certifications",
     winner: "Simran Kaur",
@@ -27,7 +18,7 @@ export const achievements = [
     metric: "Score: 920/1000"
   },
   {
-    id: 4,
+    id: 3,
     title: "Codeforces Candidate Master",
     category: "Leaderboards",
     winner: "Siddharth Sen",
@@ -36,7 +27,7 @@ export const achievements = [
     metric: "Rating: 1984"
   },
   {
-    id: 5,
+    id: 4,
     title: "1st Place - HackOut 2025",
     category: "Hackathon Wins",
     winner: "Team NullPointer (Priya, Tanmay, Aditya Rao)",
@@ -45,16 +36,7 @@ export const achievements = [
     metric: "Cash Prize: ₹50,000"
   },
   {
-    id: 6,
-    title: "Meta SDE Intern Offer",
-    category: "Placements",
-    winner: "Aryan Sen",
-    date: "2026-02-14",
-    description: "Selected for the Meta Summer Production Engineering Internship Program in London after 4 technical interview rounds.",
-    metric: "Intern stipend: £4000/mo"
-  },
-  {
-    id: 7,
+    id: 5,
     title: "CompTIA Security+ Certified",
     category: "Certifications",
     winner: "Rahul Verma",
@@ -63,7 +45,7 @@ export const achievements = [
     metric: "Certified Expert"
   },
   {
-    id: 8,
+    id: 6,
     title: "2nd Place - Inter-College ACM-ICPC Mock Contest",
     category: "Leaderboards",
     winner: "Team ByteCode (Siddharth, Kunal, Aarav)",
@@ -72,7 +54,7 @@ export const achievements = [
     metric: "2nd Place"
   },
   {
-    id: 9,
+    id: 7,
     title: "Gold Medal - National Web Design Arena",
     category: "Hall of Fame",
     winner: "Zara Khan & Simran Kaur",
@@ -81,16 +63,7 @@ export const achievements = [
     metric: "Gold Medalists"
   },
   {
-    id: 10,
-    title: "SDE Offer at CRED",
-    category: "Placements",
-    winner: "Aditya Rao",
-    date: "2026-06-01",
-    description: "Secured a Full-Time Android SDE role at CRED through a club hackathon referral pipeline.",
-    metric: "Package: 28 LPA"
-  },
-  {
-    id: 11,
+    id: 8,
     title: "Winner - CyberShield CTF 2026",
     category: "Hackathon Wins",
     winner: "Team GuardDogs (Karan, Rahul, Yash)",
@@ -99,7 +72,7 @@ export const achievements = [
     metric: "1st Place"
   },
   {
-    id: 12,
+    id: 9,
     title: "Oracle Certified Java Professional",
     category: "Certifications",
     winner: "Kabir Mehta",
@@ -108,7 +81,7 @@ export const achievements = [
     metric: "Oracle Certified"
   },
   {
-    id: 13,
+    id: 10,
     title: "Top 50 - Google Hash Code India",
     category: "Leaderboards",
     winner: "Team ApexByte (Siddharth, Kunal)",
@@ -117,7 +90,7 @@ export const achievements = [
     metric: "Rank 42"
   },
   {
-    id: 14,
+    id: 11,
     title: "Outstanding Mentor Award 2025",
     category: "Hall of Fame",
     winner: "Dr. Rajesh Verma",
@@ -126,7 +99,7 @@ export const achievements = [
     metric: "Mentor Award"
   },
   {
-    id: 15,
+    id: 12,
     title: "1st Place - Android App-a-Thon",
     category: "Hackathon Wins",
     winner: "Team FitPulse (Ishita, Devendra)",

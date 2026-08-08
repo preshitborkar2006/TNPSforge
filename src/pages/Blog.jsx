@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { Terminal, Search, X, Clock, User, Calendar } from "lucide-react";
-import { blogs } from "../data/blogs";
+import { blogs as defaultBlogs } from "../data/blogs";
 import BlogCard from "../components/Blog/BlogCard";
 import SlideAnimation from "../animations/SlideAnimation";
 import "./Blog.css";
 
 export default function Blog() {
+  const [blogs] = useState(() => {
+    const saved = localStorage.getItem("admin_blogs");
+    return saved ? JSON.parse(saved) : defaultBlogs;
+  });
   const [filter, setFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedBlog, setSelectedBlog] = useState(null);

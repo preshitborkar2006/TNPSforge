@@ -40,10 +40,8 @@ export default function Footer() {
         </div>
 
         <div className="footer-links-group">
-          <h3>Resources</h3>
+          <h3>Tech Hub</h3>
           <ul className="footer-links">
-            <li><Link to="/resources">Roadmaps</Link></li>
-            <li><Link to="/resources">Cheat Sheets</Link></li>
             <li><Link to="/blog">Tech Blogs</Link></li>
             <li><Link to="/achievements">Achievements</Link></li>
             <li><Link to="/admin">Admin Console</Link></li>
@@ -65,7 +63,12 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} TNPS Forge - Coding Club. Developed with React & Framer Motion. All rights reserved.</p>
+        <div className="footer-bottom-content">
+          <p>&copy; {new Date().getFullYear()} TNPS Forge - Coding Club. All rights reserved.</p>
+          <p className="developer-credits">
+            Crafted & Built by <span className="dev-name">PRESHIT BORKAR</span> | Contact: <a href="tel:9226428491" className="dev-phone">9226428491</a>
+          </p>
+        </div>
       </div>
     </footer>
   );

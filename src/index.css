@@ -5,7 +5,7 @@
 :root {
   /* Fonts */
   --font-heading: 'Poppins', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-body: 'Quicksand', sans-serif;
 
   /* Theme Palette */
   --bg-primary: #020617;
@@ -57,9 +57,14 @@
   padding: 0;
 }
 
+html {
+  background-color: var(--bg-primary);
+}
+
 body {
   font-family: var(--font-body);
-  background-color: var(--bg-primary);
+  font-weight: 500;
+  background-color: transparent;
   color: var(--text-primary);
   line-height: 1.6;
   overflow-x: hidden;

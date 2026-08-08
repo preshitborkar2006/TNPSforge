@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { Terminal } from "lucide-react";
-import { members } from "../data/members";
+import { members as defaultMembers } from "../data/members";
 import MemberCard from "../components/Team/MemberCard";
 import SlideAnimation from "../animations/SlideAnimation";
 import "./Team.css";
 
 export default function Team() {
+  const [members] = useState(() => {
+    const saved = localStorage.getItem("admin_members");
+    return saved ? JSON.parse(saved) : defaultMembers;
+  });
   // Sort members into respective groups
   const faculty = members.filter(m => m.team === "Faculty");
   const core = members.filter(m => m.team === "President" || m.team === "Vice President");
@@ -22,14 +27,14 @@ export default function Team() {
             <Terminal size={14} className="title-icon" />
             <span>THE ORG CHART</span>
           </div>
-          <h2>Meet the <span className="text-gradient">ByteCraft Team</span></h2>
+          <h2>Meet the <span className="text-gradient">TNPS Forge Team</span></h2>
           <p>The students driving technical learning, event hosting, and project building on campus.</p>
         </div>
 
         {/* Faculty Advisors */}
         <div className="team-group-section">
           <h2 className="team-group-title">Faculty Advisors</h2>
-          <div className="members-grid compact-grid">
+          <div className="members-grid">
             {faculty.map(member => (
               <SlideAnimation key={member.id} className="grid-item">
                 <MemberCard member={member} />
@@ -41,7 +46,7 @@ export default function Team() {
         {/* Core Leadership */}
         <div className="team-group-section section-margin">
           <h2 className="team-group-title">Club Leadership</h2>
-          <div className="members-grid center-grid">
+          <div className="members-grid">
             {core.map(member => (
               <SlideAnimation key={member.id} className="grid-item">
                 <MemberCard member={member} />

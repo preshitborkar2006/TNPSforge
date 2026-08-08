@@ -28,9 +28,9 @@ export default function Stats() {
     {
       id: 4,
       icon: <Trophy size={28} className="stat-icon yellow" />,
-      target: 8,
-      suffix: " LPA+",
-      label: "Highest Placement"
+      target: 15,
+      suffix: "+",
+      label: "Hackathon Podiums"
     }
   ];
 

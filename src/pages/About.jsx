@@ -8,7 +8,7 @@ export default function About() {
     "Support open-source development and pair programming.",
     "Equip students with skills for national hackathons and coding rounds.",
     "Enable students to earn global cloud, mobile, and web certifications.",
-    "Create placement referral networks linking current juniors to alumni."
+    "Create professional mentor networks linking current juniors to alumni."
   ];
 
   return (

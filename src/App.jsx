@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Loader from "./components/Loader/Loader";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import HyperSpeedBackground from "./components/HyperSpeedBackground";
 
 // Pages
 import Home from "./pages/Home";
@@ -13,7 +14,6 @@ import Projects from "./pages/Projects";
 import Team from "./pages/Team";
 import Gallery from "./pages/Gallery";
 import Achievements from "./pages/Achievements";
-import Resources from "./pages/Resources";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
@@ -36,6 +36,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <HyperSpeedBackground />
       {/* Matrix Glowing Background Grid */}
       <div className="animated-bg">
         <div className="grid-glow"></div>
@@ -55,7 +56,6 @@ export default function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/achievements" element={<Achievements />} />
-          <Route path="/resources" element={<Resources />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Terminal, Award, HelpCircle, Code, ArrowRight, Star } from "lucide-react";
 import Hero from "../components/Hero/Hero";
@@ -5,13 +6,20 @@ import Stats from "../components/Stats/Stats";
 import AboutOverview from "../components/About/AboutOverview";
 import EventCard from "../components/Events/EventCard";
 import ProjectCard from "../components/Projects/ProjectCard";
-import { events } from "../data/events";
-import { projects } from "../data/projects";
+import { events as defaultEvents } from "../data/events";
+import { projects as defaultProjects } from "../data/projects";
 import SlideAnimation from "../animations/SlideAnimation";
-import HyperSpeedBackground from "../components/HyperSpeedBackground";
 import "./Home.css";
 
 export default function Home() {
+  const [events] = useState(() => {
+    const saved = localStorage.getItem("admin_events");
+    return saved ? JSON.parse(saved) : defaultEvents;
+  });
+  const [projects] = useState(() => {
+    const saved = localStorage.getItem("admin_projects");
+    return saved ? JSON.parse(saved) : defaultProjects;
+  });
   // Get upcoming and featured lists
   const upcomingEvents = events.filter(e => e.status === "upcoming").slice(0, 3);
   const featuredProjects = projects.slice(0, 3);
@@ -24,15 +32,15 @@ export default function Home() {
       stars: 5
     },
     {
-      name: "Zara Khan",
-      role: "Design Lead",
-      quote: "Collaborating with developers in our bootcamps helped me understand how developers interpret design tokens.",
+      name: "Rohan Joshi",
+      role: "Technical Lead",
+      quote: "TNPS Forge gave me access to high-end infrastructure and developer-minded peers. It completely changed my coding journey.",
       stars: 5
     },
     {
-      name: "Siddharth Sen",
-      role: "Coding Lead",
-      quote: "Practicing on ByteCode Arena raised my speed and logic capabilities. It helped me clear Google coding rounds.",
+      name: "Zara Khan",
+      role: "Design Lead",
+      quote: "The focus on micro-interactions and visual polish is unmatched. TNPS Forge is where engineering meets premium aesthetics.",
       stars: 5
     }
   ];
@@ -48,7 +56,6 @@ export default function Home() {
 
   return (
     <div className="home-page">
-      <HyperSpeedBackground />
       <Hero />
       <Stats />
       
@@ -78,8 +85,8 @@ export default function Home() {
               <p>Represent the college in hackathons, capture the flag challenges, and competitive coding events globally.</p>
             </div>
             <div className="why-card glass-card">
-              <h3>Placement Referral Pipeline</h3>
-              <p>Get direct referrals from alumni working at tech giants like Google, CRED, and Microsoft through mock reviews.</p>
+              <h3>Alumni Mentorship Network</h3>
+              <p>Get guidance and project feedback from experienced alumni working at tech giants through regular review sessions.</p>
             </div>
           </div>
         </div>
