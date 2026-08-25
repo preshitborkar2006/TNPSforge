@@ -234,8 +234,8 @@
 
 /* Active Highlight & Glows */
 .circular-gallery-card.is-active {
-  border-color: rgba(6, 182, 212, 0.5);
-  box-shadow: 0 0 35px rgba(6, 182, 212, 0.3), 0 10px 40px rgba(0, 0, 0, 0.6);
+  border-color: rgba(249, 115, 22, 0.5);
+  box-shadow: 0 0 35px rgba(249, 115, 22, 0.3), 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
 .card-active-glow {

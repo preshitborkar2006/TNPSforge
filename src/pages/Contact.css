@@ -48,9 +48,9 @@
   flex-shrink: 0;
 }
 
-.icon-box-small.purple { color: #c084fc; }
-.icon-box-small.cyan { color: #22d3ee; }
-.icon-box-small.blue { color: #60a5fa; }
+.icon-box-small.purple { color: #fdba74; }
+.icon-box-small.cyan { color: #f97316; }
+.icon-box-small.blue { color: #ffffff; }
 
 .link-details span {
   font-size: 0.75rem;

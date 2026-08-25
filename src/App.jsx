@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Loader from "./components/Loader/Loader";
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
-import HyperSpeedBackground from "./components/HyperSpeedBackground";
+import PlasmaWave from "./components/PlasmaWave/PlasmaWave";
 
 // Pages
 import Home from "./pages/Home";
@@ -22,12 +22,12 @@ import Admin from "./pages/Admin";
 
 export default function App() {
   const [loading, setLoading] = useState(() => {
-    return !sessionStorage.getItem("bytecraft_loaded");
+    return !sessionStorage.getItem("tnps_forge_loaded");
   });
 
   const handleFinishLoading = () => {
     setLoading(false);
-    sessionStorage.setItem("bytecraft_loaded", "true");
+    sessionStorage.setItem("tnps_forge_loaded", "true");
   };
 
   if (loading) {
@@ -36,7 +36,16 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <HyperSpeedBackground />
+      <PlasmaWave
+        colors={["#ea580c", "#fbbf24"]}
+        speed1={0.05}
+        speed2={0.05}
+        focalLength={0.8}
+        bend1={1}
+        bend2={0.5}
+        dir2={1}
+        rotationDeg={0}
+      />
       {/* Matrix Glowing Background Grid */}
       <div className="animated-bg">
         <div className="grid-glow"></div>

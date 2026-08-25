@@ -155,12 +155,12 @@
 
 .floating-badge .badge-icon.purple {
   color: var(--color-purple);
-  filter: drop-shadow(0 0 4px rgba(124, 58, 237, 0.5));
+  filter: drop-shadow(0 0 4px rgba(234, 88, 12, 0.5));
 }
 
 .floating-badge .badge-icon.cyan {
   color: var(--color-cyan);
-  filter: drop-shadow(0 0 4px rgba(6, 182, 212, 0.5));
+  filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.5));
 }
 
 .badge-top-right {

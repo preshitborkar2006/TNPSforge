@@ -339,3 +339,50 @@
   align-items: center;
   gap: 12px;
 }
+
+/* Admin OAuth Styles */
+.admin-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-heading);
+  margin: 20px 0;
+}
+
+.admin-divider::before, .admin-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-divider:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.admin-divider:not(:empty)::after {
+  margin-left: .5em;
+}
+
+.admin-oauth-container {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.admin-oauth-btn {
+  flex: 1;
+  font-size: 0.85rem;
+  padding: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.admin-oauth-btn:hover:not(:disabled) {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+}
+

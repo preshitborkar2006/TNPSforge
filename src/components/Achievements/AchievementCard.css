@@ -24,19 +24,19 @@
 }
 
 .ach-icon.yellow { color: #fbbf24; }
-.ach-icon.purple { color: #c084fc; }
-.ach-icon.cyan { color: #22d3ee; }
-.ach-icon.blue { color: #60a5fa; }
+.ach-icon.purple { color: #fdba74; }
+.ach-icon.cyan { color: #f97316; }
+.ach-icon.blue { color: #ffffff; }
 
 .ach-metric {
   font-family: var(--font-heading);
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--color-cyan-glow);
-  background: rgba(34, 211, 238, 0.06);
+  background: rgba(249, 115, 22, 0.06);
   padding: 4px 10px;
   border-radius: var(--radius-full);
-  border: 1px solid rgba(34, 211, 238, 0.15);
+  border: 1px solid rgba(249, 115, 22, 0.15);
 }
 
 .achievement-body {

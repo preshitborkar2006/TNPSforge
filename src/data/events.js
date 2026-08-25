@@ -20,7 +20,7 @@ export const events = [
     time: "02:00 PM - 04:30 PM",
     venue: "Seminar Hall B",
     status: "upcoming",
-    image: "tnpsevent1.jpg",
+    image: "https://thumbs.dreamstime.com/b/abstract-orange-black-wave-design-background-graphic-illustration-website-banner-presentation-template-373706901.jpg",
     description: "Hands-on workshop on building and training your first artificial neural network using PyTorch. Learn about tensors, backpropagation, and loss functions.",
     registrationLink: "/register",
     speakers: ["Amit Sharma (AI Researcher)"]

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   Terminal, 
   Users, 
@@ -23,6 +23,9 @@ import { gallery as defaultGallery } from "../data/gallery";
 import { achievements as defaultAchievements } from "../data/achievements";
 import SlideAnimation from "../animations/SlideAnimation";
 import "./Admin.css";
+import { signInWithEmailAndPassword, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+import { auth, googleProvider, ALLOWED_ADMIN_EMAILS, isFirebaseConfigured } from "../firebase";
+import { Chrome } from "../components/Icons";
 
 export default function Admin() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -35,6 +38,30 @@ export default function Admin() {
 
   const [authForm, setAuthForm] = useState({ email: "", password: "" });
   const [authError, setAuthError] = useState("");
+  const [loadingAuth, setLoadingAuth] = useState(false);
+
+  // Sync auth state with Firebase Auth
+  useEffect(() => {
+    if (!isFirebaseConfigured) return;
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        if (ALLOWED_ADMIN_EMAILS.includes(firebaseUser.email?.toLowerCase())) {
+          const loggedUser = { email: firebaseUser.email, isAdmin: true };
+          localStorage.setItem("bytecraft_user", JSON.stringify(loggedUser));
+          setUser(loggedUser);
+        } else {
+          // If logged in Firebase but not allowed, sign out from Firebase
+          signOut(auth);
+          localStorage.removeItem("bytecraft_user");
+          setUser(null);
+        }
+      } else {
+        localStorage.removeItem("bytecraft_user");
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Simulated datasets loaded from localStorage or defaults
   const [events, setEvents] = useState(() => {
@@ -191,20 +218,102 @@ export default function Admin() {
   const handleDeleteAchievement = (id) => saveAndSetAchievements(achievements.filter(a => a.id !== id));
 
   // Authentication Logic
-  const handleAuthLogin = (e) => {
+  const handleAuthLogin = async (e) => {
     e.preventDefault();
-    // Set admin user in local storage if email includes "admin"
-    if (authForm.email.toLowerCase().includes("admin")) {
-      const loggedUser = { email: authForm.email, isAdmin: true };
-      localStorage.setItem("bytecraft_user", JSON.stringify(loggedUser));
-      setUser(loggedUser);
-      setAuthError("");
-    } else {
-      setAuthError("Invalid credentials. Root Access requires administrator permissions.");
+    setLoadingAuth(true);
+    setAuthError("");
+
+    if (!isFirebaseConfigured) {
+      // Mock auth mode for local development
+      setTimeout(() => {
+        if (ALLOWED_ADMIN_EMAILS.includes(authForm.email?.toLowerCase()) && authForm.password === "@preshit2006") {
+          const loggedUser = { email: authForm.email, isAdmin: true };
+          localStorage.setItem("bytecraft_user", JSON.stringify(loggedUser));
+          setUser(loggedUser);
+          setAuthError("");
+        } else {
+          setAuthError("Access Denied: Invalid mock credentials. (Use an allowed admin email and password '@preshit2006' in dev mode)");
+        }
+        setLoadingAuth(false);
+      }, 800);
+      return;
+    }
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, authForm.email, authForm.password);
+      const firebaseUser = userCredential.user;
+      if (ALLOWED_ADMIN_EMAILS.includes(firebaseUser.email?.toLowerCase())) {
+        const loggedUser = { email: firebaseUser.email, isAdmin: true };
+        localStorage.setItem("bytecraft_user", JSON.stringify(loggedUser));
+        setUser(loggedUser);
+      } else {
+        await signOut(auth);
+        setAuthError("Access Denied: Your email is not authorized for Admin access.");
+      }
+    } catch (error) {
+      console.error(error);
+      let errorMsg;
+      if (error.code === "auth/invalid-credential" || error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+        errorMsg = "Invalid admin credentials. Please try again.";
+      } else if (error.code === "auth/configuration-not-found" || error.message.includes("configuration") || error.message.includes("apiKey")) {
+        errorMsg = "Firebase is not configured. Please copy '.env.example' to '.env' and populate with your credentials.";
+      } else {
+        errorMsg = error.message || "Invalid credentials. Root Access requires administrator permissions.";
+      }
+      setAuthError(errorMsg);
+    } finally {
+      setLoadingAuth(false);
     }
   };
 
-  const handleLogout = () => {
+  const handleGoogleLogin = async () => {
+    setLoadingAuth(true);
+    setAuthError("");
+
+    if (!isFirebaseConfigured) {
+      // Mock Google sign-in
+      setTimeout(() => {
+        const loggedUser = { email: "preshitborkar2006@gmail.com", isAdmin: true };
+        localStorage.setItem("bytecraft_user", JSON.stringify(loggedUser));
+        setUser(loggedUser);
+        setLoadingAuth(false);
+      }, 800);
+      return;
+    }
+
+    try {
+      const userCredential = await signInWithPopup(auth, googleProvider);
+      const firebaseUser = userCredential.user;
+      if (ALLOWED_ADMIN_EMAILS.includes(firebaseUser.email?.toLowerCase())) {
+        const loggedUser = { email: firebaseUser.email, isAdmin: true };
+        localStorage.setItem("bytecraft_user", JSON.stringify(loggedUser));
+        setUser(loggedUser);
+      } else {
+        await signOut(auth);
+        setAuthError("Access Denied: Your Google email is not authorized for Admin access.");
+      }
+    } catch (error) {
+      console.error(error);
+      let errorMsg;
+      if (error.code === "auth/configuration-not-found" || error.message.includes("configuration") || error.message.includes("apiKey")) {
+        errorMsg = "Firebase is not configured. Please copy '.env.example' to '.env' and populate with your credentials.";
+      } else {
+        errorMsg = error.message || "Google authentication failed. Please try again.";
+      }
+      setAuthError(errorMsg);
+    } finally {
+      setLoadingAuth(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    if (isFirebaseConfigured) {
+      try {
+        await signOut(auth);
+      } catch (err) {
+        console.error("Firebase logout error:", err);
+      }
+    }
     localStorage.removeItem("bytecraft_user");
     setUser(null);
   };
@@ -221,18 +330,25 @@ export default function Admin() {
               <p>TNPS Forge administrative access is encrypted.</p>
             </div>
             
+            {!isFirebaseConfigured && (
+              <div className="auth-error-banner" style={{ background: "rgba(245, 158, 11, 0.15)", border: "1px solid rgba(245, 158, 11, 0.3)", color: "#fcd34d", marginBottom: "20px" }}>
+                ⚠️ Live Firebase is not configured. Copy .env.example to .env and populate credentials. Running in Mock Admin mode.
+              </div>
+            )}
+
             {authError && <div className="auth-error-banner">{authError}</div>}
             
             <form onSubmit={handleAuthLogin} className="lockscreen-form">
               <div className="form-group">
-                <label className="form-label">Authorized Email Address</label>
+                <label className="form-label">Authorized Admin Email</label>
                 <input 
                   type="email" 
                   className="form-input" 
-                  placeholder="admin@apex.edu" 
+                  placeholder="admin@email.com" 
                   value={authForm.email} 
                   onChange={e => setAuthForm({ ...authForm, email: e.target.value })} 
                   required 
+                  disabled={loadingAuth}
                 />
               </div>
               <div className="form-group">
@@ -244,12 +360,34 @@ export default function Admin() {
                   value={authForm.password} 
                   onChange={e => setAuthForm({ ...authForm, password: e.target.value })} 
                   required 
+                  disabled={loadingAuth}
                 />
               </div>
-              <button type="submit" className="btn btn-primary btn-block" style={{ width: "100%", marginTop: "10px" }}>
-                Authenticate Session
+              <button 
+                type="submit" 
+                className="btn btn-primary btn-block" 
+                style={{ width: "100%", marginTop: "10px" }}
+                disabled={loadingAuth}
+              >
+                {loadingAuth ? "Verifying..." : "Authenticate Session"}
               </button>
             </form>
+
+            <div className="admin-divider">
+              <span>OR EXECUTE VIA</span>
+            </div>
+
+            <div className="admin-oauth-container">
+              <button 
+                type="button" 
+                className="btn admin-oauth-btn btn-block" 
+                style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}
+                onClick={handleGoogleLogin}
+                disabled={loadingAuth}
+              >
+                <Chrome size={16} /> Google Account
+              </button>
+            </div>
           </SlideAnimation>
         </div>
       </div>
