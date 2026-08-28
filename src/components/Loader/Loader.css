@@ -271,3 +271,62 @@
     font-size: 0.75rem;
   }
 }
+
+/* WebGL Three.js Container */
+.coin-webgl-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.coin-webgl-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Coin Brand Wrapper below the coin */
+.coin-brand-wrapper {
+  position: absolute;
+  bottom: -50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+  width: 100%;
+}
+
+/* Fallback static layout styling */
+.coin-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.coin-fallback-face {
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  border: 7px double #b3922e;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+  background: conic-gradient(from 0deg, #9a7b1c 0%, #e6c762 15%, #ffe898 25%, #e6c762 35%, #9a7b1c 50%, #644e0e 60%, #9a7b1c 70%, #e6c762 80%, #ffe898 88%, #e6c762 94%, #9a7b1c 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 15px;
+}
